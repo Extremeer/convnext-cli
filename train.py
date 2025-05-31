@@ -472,7 +472,7 @@ def quick_training_test():
     print("=== ConvNeXt训练框架快速测试 ===\n")
     
     # 导入之前实现的ConvNeXt
-    from ConvNeXtModel import convnext_tiny  # 假设之前的模型在这个文件中
+    from ConvNeXtV2Model import convnext_tiny
     
     # 设置参数
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

@@ -1,9 +1,9 @@
 # 数据文件夹
-Data/
+Data/*
 dataset/
 datasets/
 raw_data/
-Run/
+Run/*
 
 # 模型文件和权重
 *.pth

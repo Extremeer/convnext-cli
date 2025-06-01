@@ -26,6 +26,8 @@ set_matplotlib_chinese_font()
 # 导入模型
 from ConvNeXtV1Model import convnext_tiny as convnext_tinyv1
 from ConvNeXtV2Model import convnext_tiny as convnext_tinyv2
+from ConvNeXtV3Model import convnext_tiny_cs_attention as convnext_tinyv3
+from ConvNeXtV1Model import convnext_tiny as convnext_tinyv4
 from train import ConvNeXtTransforms
 
 def load_model(model_path, device='cuda', model_type='v2'):
@@ -42,6 +44,10 @@ def load_model(model_path, device='cuda', model_type='v2'):
         model = convnext_tinyv1(num_classes=num_classes)
     elif model_type == 'v2':
         model = convnext_tinyv2(num_classes=num_classes)
+    elif model_type == 'v3':
+        model = convnext_tinyv3(num_classes=num_classes)
+    elif model_type == 'v4':
+        model = convnext_tinyv4(num_classes=num_classes)
     else:
         raise ValueError(f"不支持的模型版本: {model_type}")
     
@@ -130,7 +136,7 @@ def main():
     parser.add_argument('--image', type=str, required=True, help='图像路径')
     parser.add_argument('--model', type=str, help='模型路径')
     parser.add_argument('--cpu', action='store_true', help='使用CPU进行推理')
-    parser.add_argument('--model_type', type=str, default='v2', choices=['v1', 'v2'], help='模型版本')
+    parser.add_argument('--model_type', type=str, default='v2', choices=['v1', 'v2','v3','v4'], help='模型版本')
     args = parser.parse_args()
     
     # 如果没有指定模型路径，根据模型版本自动选择

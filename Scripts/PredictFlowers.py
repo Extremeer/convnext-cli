@@ -7,6 +7,13 @@ import matplotlib.pyplot as plt
 import platform
 from torchvision import transforms
 from datetime import datetime
+import sys
+from pathlib import Path
+
+# 添加项目根目录到Python路径
+current_file = Path(__file__).resolve()
+project_root = current_file.parent.parent
+sys.path.insert(0, str(project_root))
 
 # 设置matplotlib中文字体
 def set_matplotlib_chinese_font():
@@ -24,11 +31,11 @@ def set_matplotlib_chinese_font():
 set_matplotlib_chinese_font()
 
 # 导入模型
-from ConvNeXtV1Model import convnext_tiny as convnext_tinyv1
-from ConvNeXtV2Model import convnext_tiny as convnext_tinyv2
-from ConvNeXtV3Model import convnext_tiny_cs_attention as convnext_tinyv3
-from ConvNeXtV1Model import convnext_tiny as convnext_tinyv4
-from train import ConvNeXtTransforms
+from Models.ConvNeXtV1Model import convnext_tiny as convnext_tinyv1
+from Models.ConvNeXtV2Model import convnext_tiny as convnext_tinyv2
+from Models.ConvNeXtV3Model import convnext_tiny_cs_attention as convnext_tinyv3
+from Models.ConvNeXtV1Model import convnext_tiny as convnext_tinyv4
+from Utils.Train import ConvNeXtTransforms
 
 def load_model(model_path, device='cuda', model_type='v2'):
     """加载训练好的模型"""
@@ -141,10 +148,10 @@ def main():
     
     # 如果没有指定模型路径，根据模型版本自动选择
     if args.model is None:
-        args.model = f'convnext_flowers_{args.model_type}.pth'
+        args.model = f'Run/Train/convnext_flowers_{args.model_type}.pth'
     
     # 创建run文件夹
-    run_dir = "Run"
+    run_dir = "Run/Test"
     os.makedirs(run_dir, exist_ok=True)
     
     # 生成时间戳

@@ -10,6 +10,13 @@ import random
 import time
 from typing import Dict, List
 import matplotlib.pyplot as plt
+from pathlib import Path
+import sys
+
+# 添加项目根目录到Python路径
+current_file = Path(__file__).resolve()
+project_root = current_file.parent.parent
+sys.path.insert(0, str(project_root))
 
 # ===== 1. 数据预处理和增强 =====
 
@@ -274,7 +281,7 @@ class ConvNeXtTrainer:
             
             # 前向传播（使用混合精度）
             if self.use_amp:
-                with torch.cuda.amp.autocast():
+                with torch.amp.autocast('cuda'):
                     output = self.model(data)
                     if mixed_target:
                         loss = lam * self.criterion(output, target_a) + (1 - lam) * self.criterion(output, target_b)
@@ -328,7 +335,7 @@ class ConvNeXtTrainer:
                 data, target = data.to(self.device), target.to(self.device)
                 
                 if self.use_amp:
-                    with torch.cuda.amp.autocast():
+                    with torch.amp.autocast('cuda'):
                         output = self.model(data)
                         loss = F.cross_entropy(output, target)  # 验证时不用标签平滑
                 else:
@@ -348,7 +355,7 @@ class ConvNeXtTrainer:
         
         return avg_loss, accuracy
     
-    def train(self, train_loader, val_loader, epochs, save_path='convnext_best.pth', class_names=None, class_to_idx=None):
+    def train(self, train_loader, val_loader, epochs, save_path='Run/Train/convnext_best.pth', class_names=None, class_to_idx=None):
         """完整训练流程
         
         Args:
@@ -409,12 +416,12 @@ class ConvNeXtTrainer:
                     save_dict['class_to_idx'] = class_to_idx
                     
                 torch.save(save_dict, save_path)
-                print(f"✅ 新的最佳模型已保存! Val Acc: {val_acc:.2f}%")
+                print(f"新的最佳模型已保存! Val Acc: {val_acc:.2f}%")
         
         print(f"\n🎉 训练完成! 最佳验证准确率: {best_val_acc:.2f}%")
         return best_val_acc
     
-    def plot_training_curves(self, save_path='training_curves.png'):
+    def plot_training_curves(self, save_path='Run/Train/training_curves.png'):
         """绘制训练曲线并保存到文件，不展示"""
         fig, axes = plt.subplots(2, 2, figsize=(12, 8))
         # 损失曲线
@@ -472,7 +479,7 @@ def quick_training_test():
     print("=== ConvNeXt训练框架快速测试 ===\n")
     
     # 导入之前实现的ConvNeXt
-    from ConvNeXtV2Model import convnext_tiny
+    from Models.ConvNeXtV2Model import convnext_tiny
     
     # 设置参数
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -513,7 +520,7 @@ def quick_training_test():
     print("开始快速训练测试...")
     trainer.train(train_loader, val_loader, epochs=100)
     
-    print("\n✅ 训练框架测试完成!")
+    print("\n训练框架测试完成!")
 
 
 if __name__ == "__main__":

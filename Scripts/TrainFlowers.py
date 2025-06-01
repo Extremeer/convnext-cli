@@ -4,12 +4,19 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, random_split, Dataset
 from torchvision import datasets, transforms
+from pathlib import Path
+import sys
+
+# 添加项目根目录到Python路径
+current_file = Path(__file__).resolve()
+project_root = current_file.parent.parent
+sys.path.insert(0, str(project_root))
 
 # 导入模型和训练器
-# from ConvNeXtV1Model import convnext_tiny
-# from ConvNeXtV2Model import convnext_tiny
-from ConvNeXtV3Model import convnext_tiny_cs_attention as convnext_tiny
-from train import ConvNeXtTransforms, ConvNeXtTrainer
+# from Models.ConvNeXtV1Model import convnext_tiny
+from Models.ConvNeXtV2Model import convnext_tiny
+# from Models.ConvNeXtV3Model import convnext_tiny_cs_attention as convnext_tiny
+from Utils.Train import ConvNeXtTransforms, ConvNeXtTrainer
 
 # 定义可序列化的数据集包装类
 class TransformedSubset(Dataset):
@@ -45,16 +52,16 @@ def main():
     set_seed(42)
     
     # 配置参数
-    data_root = "./data/flower_photos"  # 数据集根目录
+    data_root = "./Data/flower_photos"  # 数据集根目录
     img_size = 224                      # 输入图像大小
     batch_size = 16#32                     # 批次大小
-    num_epochs = 200                     # 训练轮数
+    num_epochs = 1                     # 训练轮数
     learning_rate = 1e-3#1e-4                # 学习率
     weight_decay = 0.05                 # 权重衰减
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # 设备
     model_size = "tiny"                 # 模型大小：tiny 或 small
     pretrained = True                     # 是否使用预训练权重
-    save_path = "convnext_flowers_v3.pth"  # 保存路径
+    save_path = "Run/Train/convnext_flowers_last.pth"  # 保存路径
     val_split = 0.15                    # 验证集比例
     test_split = 0.15                   # 测试集比例
     
@@ -171,7 +178,7 @@ def main():
     )
     
     # 可视化训练过程
-    trainer.plot_training_curves(save_path="training_curves.png")
+    trainer.plot_training_curves(save_path="Run/Train/training_curves.png")
     
     # 在测试集上评估
     print("\n在测试集上评估模型...")

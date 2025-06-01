@@ -94,7 +94,7 @@ class ConvNeXtWithCSAttention(nn.Module):
         """打印注意力机制配置信息"""
         print("🔍 注意力机制配置:")
         for i, (use_att, dim) in enumerate(zip(attention_stages, dims)):
-            status = "✅ 启用" if use_att else "❌ 关闭"
+            status = "启用" if use_att else "❌ 关闭"
             print(f"  Stage {i+1} (dim={dim:3d}): {status}")
 
     def forward_features(self, x):
@@ -465,7 +465,7 @@ if __name__ == "__main__":
         print(f"  空间注意力参数: {sa_params:,}")
         print(f"  注意力总参数: {ca_params + sa_params:,}")
     
-    print("\n✅ ConvNeXt + 通道空间注意力测试完成！")
+    print("\nConvNeXt + 通道空间注意力测试完成！")
     print("\n💡 使用建议:")
     print("- 推荐配置: Stage2-4启用注意力，平衡性能和计算成本")
     print("- 轻量配置: 仅Stage3-4启用注意力，减少计算开销")

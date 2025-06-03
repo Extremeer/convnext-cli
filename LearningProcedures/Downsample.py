@@ -16,11 +16,11 @@ class Downsample(nn.Module):
         """
         Args:
             input_dim: 输入通道数
-            output_dim: 输出通道数（通常是input_dim的2倍）
+            output_dim: 输出通道数 (通常是input_dim的2倍) 
         """
         super().__init__()
         
-        # LayerNorm（channels_first格式）
+        # LayerNorm (channels_first格式) 
         self.norm = LayerNorm(input_dim, eps=1e-6, data_format="channels_first")
         
         # 2×2卷积，stride=2实现下采样
@@ -39,7 +39,7 @@ class Downsample(nn.Module):
 
 
 class LayerNorm(nn.Module):
-    """为2D特征图设计的LayerNorm（从之前的代码复制）"""
+    """为2D特征图设计的LayerNorm (从之前的代码复制) """
     
     def __init__(self, normalized_shape, eps=1e-6, data_format="channels_last"):
         super().__init__()
@@ -117,7 +117,7 @@ class AlternativeDownsample(nn.Module):
         self.method = method
         
         if method == "conv":
-            # 方法1：2×2卷积 stride=2（ConvNeXt使用的方法）
+            # 方法1：2×2卷积 stride=2 (ConvNeXt使用的方法) 
             self.downsample = nn.Conv2d(input_dim, output_dim, kernel_size=2, stride=2)
             
         elif method == "maxpool":

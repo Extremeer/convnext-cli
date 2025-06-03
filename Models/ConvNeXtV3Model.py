@@ -225,7 +225,7 @@ class SpatialAttention(nn.Module):
         return x * self.sigmoid(x_out)
 
 
-# 原始ConvNeXt Block（无注意力）
+# 原始ConvNeXt Block (无注意力) 
 class ConvNeXtBlock(nn.Module):
     """原始ConvNeXt Block"""
     def __init__(self, dim, drop_path=0., layer_scale_init_value=1e-6):
@@ -466,9 +466,3 @@ if __name__ == "__main__":
         print(f"  注意力总参数: {ca_params + sa_params:,}")
     
     print("\nConvNeXt + 通道空间注意力测试完成！")
-    print("\n💡 使用建议:")
-    print("- 推荐配置: Stage2-4启用注意力，平衡性能和计算成本")
-    print("- 轻量配置: 仅Stage3-4启用注意力，减少计算开销")
-    print("- 通道注意力降维比例16是经验最优值")
-    print("- 空间注意力卷积核7×7效果最佳")
-    print("- 该配置相比原始ConvNeXt仅增加很少参数，但性能提升明显")

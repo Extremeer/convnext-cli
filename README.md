@@ -5,8 +5,8 @@
 ## 项目特点
 
 - 🚀 支持 ConvNeXt-V1、V2 和 引入注意力机制的 V1 架构
-- 📊 集成现代训练技巧（混合精度、MixUp、CutMix等）
-- 🛠 支持多种规模的模型（Tiny、Base、Large）
+- 📊 集成现代训练技巧 (混合精度、MixUp、CutMix等) 
+- 🛠 支持多种规模的模型 (Tiny、Base、Large) 
 - 🔧 完整的训练和推理流程
 - 📈 详细的训练过程可视化
 - 🎯 支持迁移学习和自定义数据集
@@ -33,7 +33,7 @@ ConvNeXt/
 
 - Python 3.8+
 - PyTorch 2.0+
-- CUDA（推荐用于GPU训练）
+- CUDA (推荐用于GPU训练) 
 
 ## 主要功能
 
@@ -41,7 +41,7 @@ ConvNeXt/
 
 - **ConvNeXt-V1**：原始ConvNeXt实现
 - **ConvNeXt-V2**：改进版实现，优化了Layer Scale设计
-- **引入注意力机制的 V1**：最新版本，包含更多现代化改进
+- **引入注意力机制的 V1**：最新版本，包含注意力机制
 - 支持的模型规模：
   - Tiny: 28M参数
   - Base: 89M参数

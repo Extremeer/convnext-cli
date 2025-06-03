@@ -64,7 +64,7 @@ class ConvNeXtTransforms:
     
     @staticmethod
     def get_val_transforms(img_size=224):
-        """验证时的数据预处理（只做必要的变换）"""
+        """验证时的数据预处理 (只做必要的变换) """
         return transforms.Compose([
             transforms.Resize((256, 256)),
             transforms.CenterCrop(img_size),
@@ -279,7 +279,7 @@ class ConvNeXtTrainer:
             
             self.optimizer.zero_grad()
             
-            # 前向传播（使用混合精度）
+            # 前向传播 (使用混合精度) 
             if self.use_amp:
                 with torch.amp.autocast('cuda'):
                     output = self.model(data)
@@ -363,8 +363,8 @@ class ConvNeXtTrainer:
             val_loader: 验证数据加载器
             epochs: 训练轮数
             save_path: 模型保存路径
-            class_names: 类别名称列表（可选）
-            class_to_idx: 类别到索引的映射（可选）
+            class_names: 类别名称列表 (可选) 
+            class_to_idx: 类别到索引的映射 (可选) 
         """
         best_val_acc = 0
         
@@ -409,7 +409,7 @@ class ConvNeXtTrainer:
                     'val_accs': self.val_accs
                 }
                 
-                # 添加类别信息（如果提供）
+                # 添加类别信息 (如果提供) 
                 if class_names is not None:
                     save_dict['class_names'] = class_names
                 if class_to_idx is not None:

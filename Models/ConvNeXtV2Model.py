@@ -4,8 +4,7 @@ import torch.nn.functional as F
 from typing import List
 
 class ConvNeXt(nn.Module): # Change to V2
-    """完整的ConvNeXt网络实现
-    
+    """
     ConvNeXt网络结构：
     Stem Layer → Stage1 → Downsample → Stage2 → Downsample → Stage3 → Downsample → Stage4 → Head
     """
@@ -20,11 +19,11 @@ class ConvNeXt(nn.Module): # Change to V2
                  # layer_scale_init_value=1e-6): # 取消 V1 的 Layer Scale
         """
         Args:
-            in_chans: 输入图像通道数（RGB图像为3）
+            in_chans: 输入图像通道数 (RGB图像为3) 
             num_classes: 分类类别数
             depths: 每个stage的block数量 [stage1_blocks, stage2_blocks, stage3_blocks, stage4_blocks]
             dims: 每个stage的通道数 [stage1_dim, stage2_dim, stage3_dim, stage4_dim]  
-            drop_path_rate: DropPath的最大概率（会逐层递增）
+            drop_path_rate: DropPath的最大概率 (会逐层递增) 
             head_init_scale: 分类头的初始化缩放因子
         """
         super().__init__()
@@ -39,7 +38,7 @@ class ConvNeXt(nn.Module): # Change to V2
         )
         self.downsample_layers.append(stem)
         
-        # 构建3个下采样层（Stage1→Stage2, Stage2→Stage3, Stage3→Stage4）
+        # 构建3个下采样层 (Stage1→Stage2, Stage2→Stage3, Stage3→Stage4) 
         # 使用2×2卷积，stride=2，相当于一次2×2下采样，同时设置维度到每一层的下一个stage_dim为进入下一层作准备
         for i in range(3):
             downsample_layer = nn.Sequential(
@@ -51,7 +50,7 @@ class ConvNeXt(nn.Module): # Change to V2
         # 构建4个Stage，每个Stage包含多个ConvNeXt Block
         self.stages = nn.ModuleList()
         
-        # 计算每层的drop_path_rate（逐层递增）
+        # 计算每层的drop_path_rate (逐层递增) 
         dp_rates = [x.item() for x in torch.linspace(0, drop_path_rate, sum(depths))]
         
         cur = 0  # 当前block的全局索引，用于从dp_rates中获取drop_path_rate
@@ -87,9 +86,9 @@ class ConvNeXt(nn.Module): # Change to V2
             nn.init.constant_(m.bias, 0)
 
     def forward_features(self, x):
-        """特征提取部分（不包括分类头）"""
+        """特征提取部分 (不包括分类头) """
         for i in range(4):
-            x = self.downsample_layers[i](x)  # 下采样（包括stem）
+            x = self.downsample_layers[i](x)  # 下采样 (包括stem) 
             x = self.stages[i](x)             # 对应stage的blocks
         x = self.norm(x)  # 先进行归一化
         x = x.mean([-2, -1])  # 然后进行全局平均池化
@@ -147,7 +146,7 @@ class ConvNeXtBlock(nn.Module): # Change to V2
 
 # LayerNorm 参考实现
 class LayerNorm(nn.Module): # Change to V2
-    """LayerNorm实现（复用之前的代码）"""
+    """LayerNorm实现"""
     def __init__(self, normalized_shape, eps=1e-6, data_format="channels_last"):
         super().__init__()
         self.weight = nn.Parameter(torch.ones(normalized_shape), requires_grad=True)
